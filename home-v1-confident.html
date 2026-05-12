@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genostim — Your Daily Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1A3A2A;
+    --forest-deep: #0F2419;
+    --meadow: #4A7C59;
+    --mint: #E8F2EC;
+    --offwhite: #F7F9F7;
+    --charcoal: #333333;
+    --slate: #666666;
+    --gold: #B8860B;
+    --white: #FFFFFF;
+    --border: #DDE5DF;
+    --display: 'Sora', -apple-system, sans-serif;
+    --body: 'DM Sans', -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--offwhite); color: var(--charcoal); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .eyebrow { font-family: var(--display); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--meadow); }
+  .h-display { font-family: var(--display); font-weight: 600; line-height: 1.02; letter-spacing: -0.03em; color: var(--forest); }
+  .h-section { font-family: var(--display); font-weight: 600; line-height: 1.08; letter-spacing: -0.02em; color: var(--forest); }
+  .body-lg { font-size: 18px; line-height: 1.6; color: var(--slate); }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; border-radius: 999px; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: -0.01em; cursor: pointer; border: 1.5px solid transparent; transition: all .15s ease; }
+  .btn-primary { background: var(--forest); color: var(--white); border-color: var(--forest); }
+  .btn-primary:hover { background: var(--forest-deep); }
+  .btn-ghost { background: transparent; color: var(--white); border-color: rgba(255,255,255,.45); }
+  .btn-ghost:hover { background: rgba(255,255,255,.08); border-color: var(--white); }
+  .btn-outline { background: transparent; color: var(--forest); border-color: var(--forest); }
+  .btn-outline:hover { background: var(--forest); color: var(--white); }
+  .btn .arrow { transition: transform .2s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(247,249,247,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .logo { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; font-size: 22px; color: var(--forest); }
+  .logo .dot { color: var(--meadow); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-family: var(--display); font-size: 14px; font-weight: 500; color: var(--charcoal); }
+  .nav-links a:hover { color: var(--meadow); }
+  .nav-cta { display: flex; gap: 12px; align-items: center; }
+  .nav-cta .small { font-size: 13px; padding: 10px 18px; }
+
+  /* Announcement */
+  .annc { background: var(--forest); color: var(--mint); text-align: center; padding: 9px 16px; font-size: 13px; font-family: var(--display); font-weight: 500; letter-spacing: 0.01em; }
+  .annc strong { color: var(--white); }
+
+  /* Hero */
+  .hero { background: var(--forest); color: var(--white); padding: 0; overflow: hidden; position: relative; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; padding: 96px 0 100px; }
+  .hero h1 { font-size: clamp(52px, 6vw, 80px); font-family: var(--display); font-weight: 600; line-height: 1.0; letter-spacing: -0.035em; color: var(--white); }
+  .hero h1 em { font-style: normal; color: var(--mint); font-weight: 400; }
+  .hero .deck { font-size: 19px; line-height: 1.6; color: rgba(255,255,255,.78); margin: 28px 0 38px; max-width: 520px; }
+  .hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-cta-row .btn-primary { background: var(--white); color: var(--forest); border-color: var(--white); }
+  .hero-cta-row .btn-primary:hover { background: var(--mint); border-color: var(--mint); }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(232,242,236,.7); margin-bottom: 24px; }
+  .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--meadow); }
+
+  /* Product render */
+  .product-stage { aspect-ratio: 4/5; background: linear-gradient(155deg, #0F2419 0%, #1A3A2A 60%, #2a5840 100%); border-radius: 24px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .product-stage::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(184,134,11,0.18), transparent 50%), radial-gradient(circle at 70% 80%, rgba(74,124,89,0.3), transparent 55%); }
+  .bottle { width: 56%; height: 78%; position: relative; z-index: 2; }
+  .bottle-body { position: absolute; inset: 8% 0 0 0; background: linear-gradient(180deg, #2d1810 0%, #1a0e08 100%); border-radius: 16px 16px 12px 12px; box-shadow: inset -20px 0 40px rgba(0,0,0,.4), inset 20px 0 40px rgba(255,255,255,.04), 0 30px 60px rgba(0,0,0,.5); }
+  .bottle-cap { position: absolute; top: 0; left: 18%; right: 18%; height: 12%; background: linear-gradient(180deg, #0F2419, #1A3A2A); border-radius: 6px 6px 2px 2px; box-shadow: inset 0 -6px 10px rgba(0,0,0,.4); }
+  .bottle-label { position: absolute; top: 24%; left: 8%; right: 8%; bottom: 18%; background: var(--offwhite); border-radius: 4px; padding: 18% 12% 12%; display: flex; flex-direction: column; box-shadow: inset 0 0 0 1px rgba(26,58,42,.12); }
+  .bottle-label .b-brand { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: 0.04em; color: var(--forest); text-align: center; }
+  .bottle-label .b-line { width: 30px; height: 2px; background: var(--gold); margin: 8px auto 10px; }
+  .bottle-label .b-sub { font-family: var(--display); font-size: 8px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--meadow); text-align: center; line-height: 1.4; }
+  .bottle-label .b-spacer { flex: 1; }
+  .bottle-label .b-count { font-family: var(--display); font-weight: 600; font-size: 10px; color: var(--charcoal); text-align: center; letter-spacing: 0.06em; }
+  .bottle-label .b-count strong { display: block; font-size: 22px; color: var(--forest); letter-spacing: -0.02em; margin-bottom: 2px; }
+
+  .hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.12); padding-top: 32px; margin-top: 40px; }
+  .hero-meta-item { padding: 0 20px 0 0; border-right: 1px solid rgba(255,255,255,.12); }
+  .hero-meta-item:last-child { border-right: none; padding-left: 20px; }
+  .hero-meta-item:nth-child(2) { padding-left: 20px; }
+  .hero-meta-num { font-family: var(--display); font-size: 32px; font-weight: 600; color: var(--white); letter-spacing: -0.02em; line-height: 1; }
+  .hero-meta-num em { font-style: normal; color: var(--gold); }
+  .hero-meta-label { font-size: 13px; color: rgba(255,255,255,.62); margin-top: 6px; line-height: 1.4; }
+
+  /* Trust bar */
+  .trust-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 28px 0; }
+  .trust-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; align-items: center; }
+  .trust-tile { display: flex; align-items: center; gap: 14px; }
+  .trust-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--mint); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--forest); }
+  .trust-label { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--forest); line-height: 1.25; }
+
+  /* Section base */
+  .section { padding: 120px 0; }
+  .section-tight { padding: 96px 0; }
+  .section-mint { background: var(--mint); }
+  .section-dark { background: var(--forest); color: var(--white); }
+  .section-dark .h-section, .section-dark .h-display { color: var(--white); }
+  .section-dark .body-lg { color: rgba(255,255,255,.72); }
+  .section-dark .eyebrow { color: rgba(232,242,236,.7); }
+
+  /* Intro */
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .intro h2 { font-size: clamp(36px, 4vw, 52px); margin: 18px 0 24px; }
+  .intro-visual { aspect-ratio: 5/6; border-radius: 20px; overflow: hidden; background-image: url('https://images.unsplash.com/photo-1551446591-142875a901a1?w=900&q=80'); background-size: cover; background-position: center; position: relative; }
+  .intro-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,58,42,0.15), rgba(26,58,42,0.0)); }
+  .intro-tagchip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--mint); border-radius: 999px; font-family: var(--display); font-size: 12px; font-weight: 600; color: var(--forest); letter-spacing: 0.04em; }
+
+  /* Benefits */
+  .benefits-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px; }
+  .benefits-head h2 { font-size: clamp(36px, 4vw, 52px); max-width: 720px; margin-top: 16px; }
+  .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+  .benefit { background: var(--white); padding: 40px 36px; display: flex; flex-direction: column; gap: 16px; min-height: 280px; }
+  .benefit-icon { width: 44px; height: 44px; color: var(--meadow); }
+  .benefit-num { font-family: var(--display); font-size: 12px; font-weight: 600; color: var(--slate); letter-spacing: 0.08em; }
+  .benefit h3 { font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.2; color: var(--forest); letter-spacing: -0.01em; }
+  .benefit p { font-size: 15px; line-height: 1.55; color: var(--slate); }
+  .benefit p sup { color: var(--meadow); }
+
+  /* How it works */
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 56px; }
+  .how-step { padding: 40px 32px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; }
+  .how-num { font-family: var(--display); font-weight: 600; font-size: 14px; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 24px; }
+  .how-step h3 { font-family: var(--display); font-weight: 600; font-size: 24px; color: var(--white); margin-bottom: 12px; letter-spacing: -0.01em; }
+  .how-step p { color: rgba(255,255,255,.7); font-size: 15px; line-height: 1.6; }
+
+  /* Ingredient snapshot */
+  .ing-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: center; }
+  .ing-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .ing-stat { padding: 28px 24px; background: var(--white); border-radius: 16px; border: 1px solid var(--border); }
+  .ing-stat-num { font-family: var(--display); font-weight: 600; font-size: 56px; color: var(--forest); letter-spacing: -0.04em; line-height: 1; }
+  .ing-stat-label { font-size: 14px; color: var(--slate); margin-top: 8px; }
+  .aminos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 32px; background: var(--white); border-radius: 20px; border: 1px solid var(--border); }
+  .amino-chip { padding: 14px 14px; background: var(--mint); border-radius: 10px; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--forest); text-align: center; letter-spacing: -0.01em; }
+  .amino-chip.essential { background: var(--forest); color: var(--white); }
+  .amino-legend { display: flex; gap: 20px; margin-top: 16px; font-size: 12px; color: var(--slate); padding: 0 4px; }
+  .amino-legend span { display: flex; align-items: center; gap: 6px; }
+  .amino-legend .dot { width: 10px; height: 10px; border-radius: 3px; background: var(--mint); border: 1px solid var(--border); }
+  .amino-legend .dot.essential { background: var(--forest); border-color: var(--forest); }
+
+  /* Quality */
+  .quality-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  .quality-card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; }
+  .quality-icon { width: 56px; height: 56px; border-radius: 14px; background: var(--mint); color: var(--forest); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+  .quality-card h3 { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--forest); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .quality-card p { font-size: 14px; color: var(--slate); line-height: 1.55; }
+
+  /* Reviews */
+  .reviews-head { text-align: center; margin-bottom: 64px; }
+  .stars { color: var(--gold); font-size: 20px; letter-spacing: 2px; }
+  .reviews-aggregate { font-family: var(--display); font-weight: 600; color: var(--forest); margin-top: 12px; font-size: 16px; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .review { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 32px 28px; }
+  .review .stars { font-size: 16px; margin-bottom: 16px; }
+  .review-title { font-family: var(--display); font-weight: 600; color: var(--forest); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .review-body { font-size: 15px; color: var(--charcoal); line-height: 1.6; margin-bottom: 20px; }
+  .review-footer { display: flex; justify-content: space-between; font-size: 13px; color: var(--slate); padding-top: 16px; border-top: 1px solid var(--border); }
+  .review-verified { color: var(--meadow); font-weight: 600; }
+
+  /* CTA */
+  .final-cta { padding: 0 0 120px; }
+  .final-cta-inner { background: var(--forest); color: var(--white); border-radius: 32px; padding: 88px 64px; text-align: center; position: relative; overflow: hidden; }
+  .final-cta-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 100%, rgba(74,124,89,0.4), transparent 50%), radial-gradient(circle at 80% 0%, rgba(184,134,11,0.15), transparent 50%); }
+  .final-cta-inner > * { position: relative; z-index: 1; }
+  .final-cta-inner h2 { font-size: clamp(40px, 5vw, 64px); margin-bottom: 18px; max-width: 760px; margin-left: auto; margin-right: auto; }
+  .final-cta-inner p { color: rgba(255,255,255,.72); font-size: 18px; max-width: 480px; margin: 0 auto 36px; }
+
+  /* Footer */
+  footer { background: var(--forest-deep); color: rgba(255,255,255,.7); padding: 80px 0 32px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; }
+  .foot-brand .logo { color: var(--white); font-size: 26px; }
+  .foot-brand p { margin-top: 16px; max-width: 280px; line-height: 1.55; font-size: 14px; }
+  .foot-col h4 { font-family: var(--display); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); margin-bottom: 20px; }
+  .foot-col a { display: block; padding: 6px 0; font-size: 14px; color: rgba(255,255,255,.7); }
+  .foot-col a:hover { color: var(--white); }
+  .foot-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 12px; color: rgba(255,255,255,.5); }
+  .disclaimer { font-size: 12px; color: rgba(255,255,255,.5); line-height: 1.55; max-width: 760px; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<div class="annc">Free shipping on every subscription · <strong>20% off your first order with code FOUNDATION20</strong></div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">GENOSTIM<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#ingredients">Ingredients</a>
+      <a href="#quality">Quality</a>
+      <a href="#science">Science</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" style="font-family: var(--display); font-size: 14px; font-weight: 500; color: var(--charcoal);">Sign in</a>
+      <a href="#shop" class="btn btn-primary small">Subscribe →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Real food. Real nutrition. No shortcuts.</div>
+        <h1>Your daily foundation.<br><em>Built from what your body already knows.</em></h1>
+        <p class="deck">18 amino acids and 28 naturally occurring bioactive compounds — concentrated from Texas grass-fed beef liver — in one clean daily capsule. No stimulants. No synthetic fillers. No crashes.</p>
+        <div class="hero-cta-row">
+          <a href="#shop" class="btn btn-primary">Subscribe & save 20% <span class="arrow">→</span></a>
+          <a href="#ingredients" class="btn btn-ghost">Learn what's inside</a>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <div class="hero-meta-num"><em>18</em></div>
+            <div class="hero-meta-label">Amino acids, analytically verified</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-num"><em>28</em></div>
+            <div class="hero-meta-label">Naturally occurring bioactives</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-num"><em>1</em></div>
+            <div class="hero-meta-label">Whole-food ingredient. Nothing else.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="product-stage">
+          <div class="bottle">
+            <div class="bottle-cap"></div>
+            <div class="bottle-body">
+              <div class="bottle-label">
+                <div class="b-brand">GENOSTIM</div>
+                <div class="b-line"></div>
+                <div class="b-sub">Beef Liver<br>Concentrate</div>
+                <div class="b-spacer"></div>
+                <div class="b-count"><strong>120</strong>CAPSULES · 30 SERVINGS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust-bar">
+  <div class="container">
+    <div class="trust-row">
+      <div class="trust-tile">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l4-12 5 8 4-4 5 8"/></svg>
+        </div>
+        <div class="trust-label">Texas grass-fed<br>beef liver</div>
+      </div>
+      <div class="trust-tile">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div class="trust-label">Third-party<br>tested</div>
+      </div>
+      <div class="trust-tile">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13M9 21v-7h6v7"/></svg>
+        </div>
+        <div class="trust-label">cGMP<br>manufactured</div>
+      </div>
+      <div class="trust-tile">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M5 9l7-7 7 7M5 15l7 7 7-7"/></svg>
+        </div>
+        <div class="trust-label">18 amino acids<br>per serving</div>
+      </div>
+      <div class="trust-tile">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16M4 20L20 4"/></svg>
+        </div>
+        <div class="trust-label">No stimulants<br>or synthetics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="section intro">
+  <div class="container">
+    <div class="intro-grid">
+      <div>
+        <span class="intro-tagchip">● A single whole-food concentrate</span>
+        <h2 class="h-section">Not a synthetic stack.<br>A whole-food concentrate.</h2>
+        <p class="body-lg" style="margin-bottom: 24px;">Liver has been the world's most complete food for tens of thousands of years. Gram for gram, it contains more bioavailable nutrients than virtually any other food.</p>
+        <p class="body-lg" style="margin-bottom: 32px;">Genostim starts there. Sourced from Texas grass-fed cattle, concentrated to preserve its full spectrum of naturally occurring amino acids, peptides, and bioactive compounds.</p>
+        <a href="#science" class="btn btn-outline">How we concentrate it <span class="arrow">→</span></a>
+      </div>
+      <div class="intro-visual"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section section-mint" id="benefits">
+  <div class="container">
+    <div class="benefits-head">
+      <div>
+        <div class="eyebrow">What it supports</div>
+        <h2 class="h-section">Six things your body<br>is asking for. Daily.</h2>
+      </div>
+      <p class="body-lg" style="max-width: 360px; margin-bottom: 8px;">Every benefit is anchored in what's actually in the ingredient — no proprietary blends, no magical language.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+        <span class="benefit-num">01 — Energy</span>
+        <h3>Supports sustained daily energy</h3>
+        <p>Complete amino acid profile supports energy-regulating proteins and healthy mitochondrial function.<sup>*</sup></p>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4v16M18 4v16M6 12h12"/></svg>
+        <span class="benefit-num">02 — Composition</span>
+        <h3>Supports lean body composition</h3>
+        <p>Branched-chain amino acids — leucine, isoleucine, valine — play a role in muscle protein synthesis.<sup>*</sup></p>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-12V4l-8-2-8 2v6c0 8 8 12 8 12z"/></svg>
+        <span class="benefit-num">03 — Aging</span>
+        <h3>Supports your body as you age</h3>
+        <p>Glycine and proline provide building blocks for healthy connective tissue and collagen formation.<sup>*</sup></p>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg>
+        <span class="benefit-num">04 — Immunity</span>
+        <h3>Supports healthy immune function</h3>
+        <p>Lysine, glutamine, and arginine support the body's natural immune processes.<sup>*</sup></p>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>
+        <span class="benefit-num">05 — Cellular</span>
+        <h3>Supports cellular health</h3>
+        <p>Concentrated whole-food nutritional support at the cellular level for everyday demands.<sup>*</sup></p>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+        <span class="benefit-num">06 — Metabolism</span>
+        <h3>Supports healthy metabolic function</h3>
+        <p>Amino acids play recognized roles in normal metabolic regulation across the body.<sup>*</sup></p>
+      </div>
+    </div>
+    <p style="font-size: 12px; color: var(--slate); margin-top: 32px; max-width: 760px;"><sup>*</sup>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="eyebrow">From pasture to capsule</div>
+    <h2 class="h-section" style="margin-top: 16px; max-width: 760px; font-size: clamp(36px, 4vw, 52px);">Three steps. No shortcuts<br>between them.</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">STEP 01 — SOURCE</div>
+        <h3>Texas grass-fed cattle</h3>
+        <p>Raised on open pasture without hormones or antibiotics. Single-origin, traceable to the ranch.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">STEP 02 — CONCENTRATE</div>
+        <h3>Gentle enzymatic process</h3>
+        <p>Preserves the full amino acid and bioactive compound profile naturally present in the source tissue.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">STEP 03 — DOSE</div>
+        <h3>2–4 capsules with breakfast</h3>
+        <p>Your daily foundation, taken with your first meal. No stimulants. No crashes. No ritual to remember.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INGREDIENTS SNAPSHOT -->
+<section class="section" id="ingredients">
+  <div class="container">
+    <div class="ing-grid">
+      <div>
+        <div class="eyebrow">One ingredient. Everything inside it.</div>
+        <h2 class="h-section" style="margin-top: 18px; font-size: clamp(36px, 4vw, 52px);">A single-ingredient<br>supplement with nothing<br>to hide.</h2>
+        <p class="body-lg" style="margin-top: 24px;">18 amino acids, analytically verified. 28 naturally occurring bioactive compounds, present in grass-fed beef liver as nature delivers them. Full Supplement Facts panel available on every page.</p>
+        <div class="ing-stats">
+          <div class="ing-stat">
+            <div class="ing-stat-num">18</div>
+            <div class="ing-stat-label">Amino acids verified per batch — including all 9 essentials.</div>
+          </div>
+          <div class="ing-stat">
+            <div class="ing-stat-num">28</div>
+            <div class="ing-stat-label">Naturally occurring bioactive compounds.</div>
+          </div>
+        </div>
+        <a href="#science" class="btn btn-outline" style="margin-top: 36px;">Explore the full profile <span class="arrow">→</span></a>
+      </div>
+      <div>
+        <div class="aminos">
+          <div class="amino-chip essential">Leucine</div>
+          <div class="amino-chip essential">Isoleucine</div>
+          <div class="amino-chip essential">Valine</div>
+          <div class="amino-chip essential">Lysine</div>
+          <div class="amino-chip essential">Methionine</div>
+          <div class="amino-chip essential">Phenylalanine</div>
+          <div class="amino-chip essential">Threonine</div>
+          <div class="amino-chip essential">Tryptophan</div>
+          <div class="amino-chip essential">Histidine</div>
+          <div class="amino-chip">Arginine</div>
+          <div class="amino-chip">Glutamine</div>
+          <div class="amino-chip">Glycine</div>
+          <div class="amino-chip">Proline</div>
+          <div class="amino-chip">Alanine</div>
+          <div class="amino-chip">Aspartate</div>
+          <div class="amino-chip">Cysteine</div>
+          <div class="amino-chip">Serine</div>
+          <div class="amino-chip">Tyrosine</div>
+        </div>
+        <div class="amino-legend">
+          <span><span class="dot essential"></span> Essential (9)</span>
+          <span><span class="dot"></span> Conditionally essential & non-essential (9)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUALITY -->
+<section class="section section-mint" id="quality">
+  <div class="container">
+    <div class="eyebrow">Quality you can verify</div>
+    <h2 class="h-section" style="margin-top: 16px; max-width: 720px; font-size: clamp(36px, 4vw, 52px);">No proprietary blends.<br>No hidden anything.</h2>
+    <div class="quality-grid">
+      <div class="quality-card">
+        <div class="quality-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V8l9-5 9 5v13M9 21v-7h6v7"/></svg>
+        </div>
+        <h3>cGMP manufactured</h3>
+        <p>Produced in a 21 CFR Part 111 certified facility. Every batch tracked, every step documented.</p>
+      </div>
+      <div class="quality-card">
+        <div class="quality-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Third-party tested</h3>
+        <p>Identity, purity, and potency verified per batch by an independent ISO-accredited laboratory.</p>
+      </div>
+      <div class="quality-card">
+        <div class="quality-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Single ingredient</h3>
+        <p>One whole-food concentrate. No proprietary blends. No filler ingredients. Nothing hidden.</p>
+      </div>
+      <div class="quality-card">
+        <div class="quality-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L3 7v6c0 5 4 9 9 9s9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Source verified</h3>
+        <p>Texas grass-fed cattle, raised on open pasture. Traceable to ranch of origin on every batch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="reviews-head">
+      <div class="stars">★ ★ ★ ★ ★</div>
+      <div class="reviews-aggregate">4.8 average · 2,400+ verified reviews</div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="review-title">Replaced three other supplements</div>
+        <div class="review-body">"I used to take a multi, a collagen, and a protein top-up. Genostim covers what those did, but it's one ingredient I can actually pronounce. The energy thing is real — no stimulant feeling, just steady."</div>
+        <div class="review-footer"><span>Marcus T.</span><span class="review-verified">✓ Verified subscriber</span></div>
+      </div>
+      <div class="review">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="review-title">Skeptic-friendly</div>
+        <div class="review-body">"I asked them about bioavailability and they sent me the actual COA from my batch. That's the kind of transparency I want from a brand I'm putting in my body every morning."</div>
+        <div class="review-footer"><span>Priya K.</span><span class="review-verified">✓ Verified subscriber</span></div>
+      </div>
+      <div class="review">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="review-title">Six months in</div>
+        <div class="review-body">"Subscribed in November. Skipped a month while traveling — took thirty seconds. Came back to it. It just works as a foundation. Not a magic pill, but a solid base layer."</div>
+        <div class="review-footer"><span>Jordan B.</span><span class="review-verified">✓ Verified subscriber</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <div class="final-cta-inner">
+      <div class="eyebrow" style="color: rgba(232,242,236,.7); margin-bottom: 20px;">Start your daily foundation</div>
+      <h2 class="h-section">Join 12,000+ people<br>who start the day here.</h2>
+      <p>Free shipping. Cancel, pause, or skip anytime in two taps. 30-day guarantee.</p>
+      <a href="#" class="btn btn-primary" style="background: var(--white); color: var(--forest); border-color: var(--white); font-size: 16px; padding: 18px 36px;">Subscribe & save 20% <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">GENOSTIM<span class="dot" style="color: var(--meadow);">.</span></a>
+        <p>Real food. Real nutrition. No shortcuts. A whole-food daily foundation, concentrated from Texas grass-fed beef liver.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#">Subscribe</a><a href="#">One-time purchase</a><a href="#">Gift</a>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <a href="#">Ingredients</a><a href="#">Science</a><a href="#">Quality</a><a href="#">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h4>Account</h4>
+        <a href="#">Sign in</a><a href="#">Manage subscription</a><a href="#">Refer a friend</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#">About</a><a href="#">Contact</a><a href="#">Press</a>
+      </div>
+    </div>
+    <p class="disclaimer">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Formulated for healthy adults. Consult your healthcare provider if pregnant, nursing, under 18, or managing a medical condition.</p>
+    <div class="foot-bottom">
+      <span>© 2026 Genostim. All rights reserved.</span>
+      <span>Privacy · Terms · Accessibility · Do not sell my info</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

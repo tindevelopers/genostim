@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genostim — Built for skeptics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1A3A2A;
+    --forest-deep: #0F2419;
+    --meadow: #4A7C59;
+    --mint: #E8F2EC;
+    --offwhite: #F7F9F7;
+    --paper: #FAFBFA;
+    --charcoal: #2A2A2A;
+    --slate: #666666;
+    --gold: #B8860B;
+    --white: #FFFFFF;
+    --line: #E2E8E4;
+    --line-strong: #C8D2CB;
+    --display: 'Manrope', sans-serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--paper); color: var(--charcoal); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .container-wide { max-width: 100%; padding: 0 40px; }
+  .label { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--meadow); }
+  .label-mute { color: var(--slate); }
+  .h-display { font-family: var(--display); font-weight: 600; line-height: 0.98; letter-spacing: -0.04em; color: var(--forest); }
+  .h-section { font-family: var(--display); font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; color: var(--forest); }
+  .body-lg { font-size: 17px; line-height: 1.65; color: var(--charcoal); }
+  .body-md { font-size: 15px; line-height: 1.65; color: var(--slate); }
+  .rule { height: 1px; background: var(--line); width: 100%; }
+  .rule-strong { background: var(--line-strong); }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border: 1px solid var(--forest); font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all .15s ease; }
+  .btn-primary { background: var(--forest); color: var(--white); }
+  .btn-primary:hover { background: var(--forest-deep); }
+  .btn-outline { background: transparent; color: var(--forest); }
+  .btn-outline:hover { background: var(--forest); color: var(--white); }
+  .btn .arrow { transition: transform .2s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* Nav */
+  .topline { background: var(--white); border-bottom: 1px solid var(--line); padding: 8px 0; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); text-align: center; }
+  .topline strong { color: var(--forest); }
+  .nav { position: sticky; top: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--line); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .logo { font-family: var(--display); font-weight: 800; letter-spacing: -0.03em; font-size: 22px; color: var(--forest); }
+  .logo-mark { display: inline-block; width: 8px; height: 8px; background: var(--meadow); margin-right: 8px; vertical-align: middle; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal); }
+  .nav-links a:hover { color: var(--meadow); }
+  .nav-cta { display: flex; gap: 14px; align-items: center; }
+
+  /* HERO — transparency-first */
+  .hero { background: var(--paper); padding: 80px 0 0; position: relative; }
+  .hero-top { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; padding-bottom: 60px; }
+  .hero h1 { font-size: clamp(56px, 7vw, 96px); font-family: var(--display); font-weight: 700; line-height: 0.96; letter-spacing: -0.045em; color: var(--forest); }
+  .hero h1 .accent { color: var(--meadow); font-style: italic; font-weight: 500; }
+  .hero h1 .sub { display: block; font-size: 0.42em; font-weight: 500; line-height: 1.15; margin-top: 28px; color: var(--charcoal); letter-spacing: -0.02em; }
+  .hero-side { padding-bottom: 24px; }
+  .hero-side p { font-size: 17px; line-height: 1.6; color: var(--charcoal); margin-bottom: 32px; }
+  .hero-side .cta-stack { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+
+  /* Big transparency table */
+  .factsheet { border-top: 1px solid var(--forest); border-bottom: 1px solid var(--forest); margin-top: 8px; padding: 32px 0 28px; }
+  .factsheet-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 24px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+  .factsheet-head h2 { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--forest); letter-spacing: -0.01em; }
+  .factsheet-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 0; }
+  .fcol { padding: 0 24px; border-right: 1px solid var(--line); }
+  .fcol:first-child { padding-left: 0; }
+  .fcol:last-child { border-right: none; padding-right: 0; }
+  .fcol .num { font-family: var(--display); font-weight: 600; font-size: 64px; line-height: 1; letter-spacing: -0.04em; color: var(--forest); }
+  .fcol .num small { font-size: 0.4em; color: var(--meadow); font-weight: 500; vertical-align: super; letter-spacing: 0; }
+  .fcol .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-top: 14px; }
+  .fcol .desc { font-size: 13px; line-height: 1.5; color: var(--charcoal); margin-top: 6px; }
+  .fcol-1 .num { font-size: 24px; line-height: 1.2; letter-spacing: -0.02em; }
+  .fcol-1 .lbl { margin-top: 0; }
+
+  /* Section base */
+  .section { padding: 100px 0; border-top: 1px solid var(--line); }
+  .section-mint { background: var(--mint); }
+  .section-dark { background: var(--forest); color: var(--white); border-color: var(--forest-deep); }
+  .section-dark .h-section { color: var(--white); }
+  .section-dark .label { color: rgba(232,242,236,.7); }
+  .section-dark .body-lg, .section-dark .body-md { color: rgba(255,255,255,.78); }
+  .section-head { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 48px; align-items: start; margin-bottom: 64px; }
+  .section-head .num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; color: var(--meadow); }
+  .section-head h2 { font-size: clamp(36px, 4vw, 56px); }
+  .section-head .lead { font-size: 17px; line-height: 1.6; color: var(--slate); padding-top: 8px; }
+
+  /* Built for skeptics */
+  .skeptic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line-strong); }
+  .skeptic { padding: 40px 32px 40px 0; border-bottom: 1px solid var(--line-strong); border-right: 1px solid var(--line); }
+  .skeptic:last-child { border-right: none; padding-right: 0; }
+  .skeptic + .skeptic { padding-left: 32px; }
+  .skeptic .q { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--meadow); margin-bottom: 16px; }
+  .skeptic h3 { font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1.2; color: var(--forest); letter-spacing: -0.015em; margin-bottom: 14px; }
+  .skeptic p { font-size: 15px; line-height: 1.6; color: var(--charcoal); }
+  .skeptic .signed { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line-strong); }
+
+  /* Amino periodic */
+  .amino-area { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+  .amino-area h2 { font-size: clamp(36px, 4vw, 56px); margin-bottom: 24px; }
+  .amino-area .body-lg { margin-bottom: 28px; }
+  .periodic { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .pcell { border: 1px solid var(--line-strong); padding: 14px 12px; background: var(--white); position: relative; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: space-between; transition: all .2s ease; }
+  .pcell:hover { background: var(--mint); border-color: var(--meadow); }
+  .pcell .pnum { font-family: var(--mono); font-size: 10px; color: var(--slate); letter-spacing: 0.06em; }
+  .pcell .psym { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--forest); letter-spacing: -0.02em; line-height: 1; }
+  .pcell .pname { font-family: var(--mono); font-size: 9px; color: var(--charcoal); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2; }
+  .pcell.essential { background: var(--forest); border-color: var(--forest); }
+  .pcell.essential .pnum, .pcell.essential .pname { color: rgba(255,255,255,.7); }
+  .pcell.essential .psym { color: var(--white); }
+  .pcell.bio { background: var(--mint); border-color: var(--meadow); }
+  .legend-row { display: flex; gap: 24px; margin-top: 20px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+  .legend-row .sw { display: inline-block; width: 14px; height: 14px; vertical-align: middle; margin-right: 8px; border: 1px solid var(--line-strong); }
+  .legend-row .sw.essential { background: var(--forest); border-color: var(--forest); }
+  .legend-row .sw.bio { background: var(--mint); border-color: var(--meadow); }
+
+  /* Pasture story */
+  .pasture { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .pasture-img { background-image: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1200&q=80'); background-size: cover; background-position: center; min-height: 540px; }
+  .pasture-text { background: var(--forest); color: var(--white); padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+  .pasture-text .label { color: rgba(232,242,236,.7); }
+  .pasture-text h2 { color: var(--white); font-size: clamp(32px, 3.5vw, 48px); margin: 18px 0 24px; }
+  .pasture-text p { color: rgba(255,255,255,.78); font-size: 16px; line-height: 1.65; margin-bottom: 16px; }
+  .pasture-meta { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.15); }
+  .pasture-meta div { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,242,236,.7); }
+  .pasture-meta strong { display: block; font-family: var(--display); font-weight: 600; font-size: 22px; letter-spacing: -0.01em; color: var(--white); margin-bottom: 4px; text-transform: none; }
+
+  /* Benefits — clinical list */
+  .benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line-strong); }
+  .b-row { padding: 36px 36px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 60px 1fr; gap: 28px; align-items: start; }
+  .b-row:nth-child(2n) { border-right: none; }
+  .b-row:nth-last-child(-n+2) { border-bottom: none; }
+  .b-row .bnum { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--meadow); padding-top: 6px; }
+  .b-row h3 { font-family: var(--display); font-size: 22px; font-weight: 600; color: var(--forest); letter-spacing: -0.015em; margin-bottom: 8px; }
+  .b-row .anchor { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--meadow); text-transform: uppercase; margin-bottom: 14px; }
+  .b-row p { font-size: 14px; line-height: 1.6; color: var(--charcoal); }
+  .b-row p sup { color: var(--meadow); }
+
+  /* Verify panel */
+  .verify { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+  .verify h2 { font-size: clamp(36px, 4vw, 56px); margin-bottom: 24px; color: var(--white); }
+  .verify p { color: rgba(255,255,255,.78); font-size: 17px; line-height: 1.6; margin-bottom: 32px; }
+  .coa-card { background: var(--white); color: var(--charcoal); padding: 32px; border-radius: 4px; box-shadow: 0 30px 60px rgba(0,0,0,.3); }
+  .coa-card .head { display: flex; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  .coa-card .head h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--slate); }
+  .coa-card .head .stamp { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--meadow); padding: 4px 8px; border: 1px solid var(--meadow); }
+  .coa-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 16px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 13px; align-items: center; }
+  .coa-row:last-child { border-bottom: none; }
+  .coa-row .test { font-family: var(--display); font-weight: 500; color: var(--charcoal); }
+  .coa-row .spec { font-family: var(--mono); font-size: 11px; color: var(--slate); }
+  .coa-row .result { font-family: var(--mono); font-size: 11px; color: var(--charcoal); }
+  .coa-row .pass { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--meadow); font-weight: 600; }
+
+  /* Reviews */
+  .reviews-strip { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: center; }
+  .review-aggregate-big { font-family: var(--display); font-weight: 700; font-size: 96px; letter-spacing: -0.05em; color: var(--forest); line-height: 1; }
+  .stars { color: var(--gold); letter-spacing: 3px; font-size: 16px; }
+  .reviews-list { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+  .review-row { padding: 24px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 100px 1fr 140px; gap: 24px; align-items: center; }
+  .review-row .stars { font-size: 14px; }
+  .review-row .quote { font-size: 15px; line-height: 1.55; color: var(--charcoal); }
+  .review-row .quote em { font-style: normal; font-weight: 600; color: var(--forest); }
+  .review-row .by { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--slate); text-transform: uppercase; text-align: right; }
+
+  /* Final CTA */
+  .final { padding: 120px 0; background: var(--forest); color: var(--white); }
+  .final-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: end; }
+  .final h2 { font-family: var(--display); font-size: clamp(52px, 6vw, 88px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98; color: var(--white); }
+  .final h2 em { font-style: normal; color: var(--mint); }
+  .final-side { padding-bottom: 12px; }
+  .final-price { display: flex; align-items: baseline; gap: 12px; font-family: var(--display); margin-bottom: 12px; }
+  .final-price strong { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; color: var(--white); line-height: 1; }
+  .final-price span { color: rgba(255,255,255,.6); }
+  .final-side p { color: rgba(255,255,255,.7); font-size: 14px; margin-bottom: 24px; }
+  .final .btn-primary { background: var(--white); color: var(--forest); border-color: var(--white); padding: 18px 28px; font-size: 13px; }
+  .final .btn-primary:hover { background: var(--mint); border-color: var(--mint); }
+
+  /* Footer */
+  footer { background: var(--forest-deep); color: rgba(255,255,255,.7); padding: 64px 0 32px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .foot-brand .logo { color: var(--white); font-size: 22px; }
+  .foot-brand p { margin-top: 14px; max-width: 280px; line-height: 1.55; font-size: 13px; }
+  .foot-col h4 { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); margin-bottom: 16px; }
+  .foot-col a { display: block; padding: 5px 0; font-size: 13px; color: rgba(255,255,255,.7); }
+  .foot-col a:hover { color: var(--white); }
+  .foot-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.5); letter-spacing: 0.06em; }
+  .disclaimer { font-size: 12px; color: rgba(255,255,255,.5); line-height: 1.55; max-width: 820px; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<div class="topline">FREE SHIPPING ON EVERY SUBSCRIPTION · CODE <strong>FOUNDATION20</strong> · 20% OFF FIRST ORDER</div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo"><span class="logo-mark"></span>GENOSTIM</a>
+    <div class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#ingredients">Ingredients</a>
+      <a href="#quality">Quality</a>
+      <a href="#science">Science</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--charcoal);">Sign in</a>
+      <a href="#shop" class="btn btn-primary">Subscribe <span class="arrow">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="label" style="margin-bottom: 32px;">FILE 001 · GENOSTIM · BEEF LIVER CONCENTRATE · BATCH N°2026.05</div>
+    <div class="hero-top">
+      <div>
+        <h1>One ingredient.<br><span class="accent">Nothing</span> to hide.
+          <span class="sub">A whole-food daily foundation, concentrated from Texas grass-fed beef liver — and built for the kind of people who read the label first.</span>
+        </h1>
+      </div>
+      <div class="hero-side">
+        <p>Most supplements are blends. We took the opposite path. Genostim is a single whole-food ingredient — analytically verified, batch-by-batch, and posted publicly. Read everything before you buy.</p>
+        <div class="cta-stack">
+          <a href="#shop" class="btn btn-primary">Subscribe & save 20% <span class="arrow">→</span></a>
+          <a href="#ingredients" class="btn btn-outline">Read the supplement facts <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="factsheet">
+      <div class="factsheet-head">
+        <h2>What's actually in it</h2>
+        <span class="label">SOURCE · TEXAS GRASS-FED BEEF LIVER</span>
+      </div>
+      <div class="factsheet-grid">
+        <div class="fcol fcol-1">
+          <div class="num">Beef liver<br>concentrate</div>
+          <div class="lbl" style="margin-top: 12px;">Single ingredient</div>
+          <div class="desc">No proprietary blend. No fillers, dyes, or flow agents. Bovine-gelatin capsule.</div>
+        </div>
+        <div class="fcol">
+          <div class="num">18<small>aa</small></div>
+          <div class="lbl">Amino acids</div>
+          <div class="desc">Verified per batch. Includes all nine essentials.</div>
+        </div>
+        <div class="fcol">
+          <div class="num">28</div>
+          <div class="lbl">Bioactive compounds</div>
+          <div class="desc">Naturally present in the source tissue.</div>
+        </div>
+        <div class="fcol">
+          <div class="num">0</div>
+          <div class="lbl">Stimulants · synthetics</div>
+          <div class="desc">No caffeine, no synthetic peptides, no hormones.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT FOR SKEPTICS -->
+<section class="section" style="padding-top: 100px;">
+  <div class="container">
+    <div class="section-head">
+      <div class="num">§ 02 — BUILT FOR SKEPTICS</div>
+      <div>
+        <h2 class="h-section">The hard questions, answered<br>before you ask them.</h2>
+      </div>
+      <div class="lead">If you've read the supplement aisle for long enough, you know what's missing from most labels. We wrote down the questions we'd ask, and answered them.</div>
+    </div>
+    <div class="skeptic-grid">
+      <div class="skeptic">
+        <div class="q">Q · 01</div>
+        <h3>Will any of this actually be absorbed orally?</h3>
+        <p>Honest answer: amino acids and smaller peptides are well-absorbed through normal digestion. Larger growth-signaling proteins may be partially digested. We don't claim specific growth-factor signaling effects at oral doses — only documented amino-acid nutritional support.<sup style="color: var(--meadow);">*</sup></p>
+        <div class="signed">SIGNED · FORMULATION TEAM</div>
+      </div>
+      <div class="skeptic">
+        <div class="q">Q · 02</div>
+        <h3>How is this different from cheap beef-liver capsules?</h3>
+        <p>Most are dehydrated whole liver. Genostim uses an enzymatic concentration step that delivers a higher density of amino acids and bioactive compounds per serving, while preserving the peptide matrix of the source tissue. Every batch is third-party tested for identity and potency.</p>
+        <div class="signed">SIGNED · MANUFACTURING</div>
+      </div>
+      <div class="skeptic">
+        <div class="q">Q · 03</div>
+        <h3>Are there any banned substances?</h3>
+        <p>Genostim is derived from whole beef liver — a food. It does not contain synthetic peptides, hormones, or substances on the WADA Prohibited List. It is a single-ingredient whole-food concentrate. We publish the COA for every batch.</p>
+        <div class="signed">SIGNED · COMPLIANCE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMINO PERIODIC -->
+<section class="section" id="ingredients">
+  <div class="container">
+    <div class="amino-area">
+      <div>
+        <div class="label">§ 03 — INGREDIENT PROFILE</div>
+        <h2 class="h-section" style="margin-top: 18px;">18 amino acids.<br>Mapped. Quantified.<br>Open-source.</h2>
+        <p class="body-lg">Every amino acid present in Genostim is analytically verified by an independent ISO-accredited lab and reported on each batch's Certificate of Analysis. Hover any cell to see milligrams per serving.</p>
+        <a href="#" class="btn btn-outline" style="margin-top: 16px;">Download current COA <span class="arrow">↓</span></a>
+        <div class="legend-row">
+          <span><span class="sw essential"></span> Essential</span>
+          <span><span class="sw bio"></span> Conditionally essential</span>
+          <span><span class="sw"></span> Non-essential</span>
+        </div>
+      </div>
+      <div>
+        <div class="periodic">
+          <div class="pcell essential"><div class="pnum">01</div><div><div class="psym">Leu</div><div class="pname">Leucine</div></div></div>
+          <div class="pcell essential"><div class="pnum">02</div><div><div class="psym">Ile</div><div class="pname">Isoleucine</div></div></div>
+          <div class="pcell essential"><div class="pnum">03</div><div><div class="psym">Val</div><div class="pname">Valine</div></div></div>
+          <div class="pcell essential"><div class="pnum">04</div><div><div class="psym">Lys</div><div class="pname">Lysine</div></div></div>
+          <div class="pcell essential"><div class="pnum">05</div><div><div class="psym">Met</div><div class="pname">Methionine</div></div></div>
+          <div class="pcell essential"><div class="pnum">06</div><div><div class="psym">Phe</div><div class="pname">Phenylalanine</div></div></div>
+          <div class="pcell essential"><div class="pnum">07</div><div><div class="psym">Thr</div><div class="pname">Threonine</div></div></div>
+          <div class="pcell essential"><div class="pnum">08</div><div><div class="psym">Trp</div><div class="pname">Tryptophan</div></div></div>
+          <div class="pcell essential"><div class="pnum">09</div><div><div class="psym">His</div><div class="pname">Histidine</div></div></div>
+          <div class="pcell bio"><div class="pnum">10</div><div><div class="psym">Arg</div><div class="pname">Arginine</div></div></div>
+          <div class="pcell bio"><div class="pnum">11</div><div><div class="psym">Gln</div><div class="pname">Glutamine</div></div></div>
+          <div class="pcell bio"><div class="pnum">12</div><div><div class="psym">Gly</div><div class="pname">Glycine</div></div></div>
+          <div class="pcell bio"><div class="pnum">13</div><div><div class="psym">Pro</div><div class="pname">Proline</div></div></div>
+          <div class="pcell bio"><div class="pnum">14</div><div><div class="psym">Cys</div><div class="pname">Cysteine</div></div></div>
+          <div class="pcell bio"><div class="pnum">15</div><div><div class="psym">Tyr</div><div class="pname">Tyrosine</div></div></div>
+          <div class="pcell"><div class="pnum">16</div><div><div class="psym">Ala</div><div class="pname">Alanine</div></div></div>
+          <div class="pcell"><div class="pnum">17</div><div><div class="psym">Asp</div><div class="pname">Aspartate</div></div></div>
+          <div class="pcell"><div class="pnum">18</div><div><div class="psym">Ser</div><div class="pname">Serine</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS — CLINICAL LIST -->
+<section class="section section-mint">
+  <div class="container">
+    <div class="section-head">
+      <div class="num">§ 04 — STRUCTURE / FUNCTION</div>
+      <div>
+        <h2 class="h-section">Six things Genostim supports.<br>Anchored, not aspirational.</h2>
+      </div>
+      <div class="lead">No hype language. No disease claims. Each benefit names the amino acid it comes from and what that acid is recognized to do in the body.</div>
+    </div>
+    <div class="benefits" style="background: var(--white);">
+      <div class="b-row">
+        <div class="bnum">B · 01</div>
+        <div>
+          <div class="anchor">↪ Complete amino acid profile</div>
+          <h3>Sustained daily energy</h3>
+          <p>Complete amino acid profile supports energy-regulating proteins and healthy mitochondrial function.<sup>*</sup></p>
+        </div>
+      </div>
+      <div class="b-row">
+        <div class="bnum">B · 02</div>
+        <div>
+          <div class="anchor">↪ Leucine · Isoleucine · Valine</div>
+          <h3>Lean body composition</h3>
+          <p>Branched-chain amino acids play a role in muscle protein synthesis.<sup>*</sup></p>
+        </div>
+      </div>
+      <div class="b-row">
+        <div class="bnum">B · 03</div>
+        <div>
+          <div class="anchor">↪ Glycine · Proline</div>
+          <h3>Your body as you age</h3>
+          <p>Glycine and proline provide building blocks for healthy connective tissue and collagen formation.<sup>*</sup></p>
+        </div>
+      </div>
+      <div class="b-row">
+        <div class="bnum">B · 04</div>
+        <div>
+          <div class="anchor">↪ Lysine · Glutamine · Arginine</div>
+          <h3>Healthy immune function</h3>
+          <p>Lysine, glutamine, and arginine support the body's natural immune processes.<sup>*</sup></p>
+        </div>
+      </div>
+      <div class="b-row">
+        <div class="bnum">B · 05</div>
+        <div>
+          <div class="anchor">↪ Whole-food matrix</div>
+          <h3>Cellular health</h3>
+          <p>Concentrated whole-food nutritional support at the cellular level for everyday demands.<sup>*</sup></p>
+        </div>
+      </div>
+      <div class="b-row">
+        <div class="bnum">B · 06</div>
+        <div>
+          <div class="anchor">↪ Full amino acid profile</div>
+          <h3>Healthy metabolic function</h3>
+          <p>Amino acids play recognized roles in normal metabolic regulation across the body.<sup>*</sup></p>
+        </div>
+      </div>
+    </div>
+    <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--slate); margin-top: 24px; max-width: 820px;">*THESE STATEMENTS HAVE NOT BEEN EVALUATED BY THE FOOD AND DRUG ADMINISTRATION. THIS PRODUCT IS NOT INTENDED TO DIAGNOSE, TREAT, CURE, OR PREVENT ANY DISEASE.</p>
+  </div>
+</section>
+
+<!-- PASTURE STORY -->
+<section class="pasture">
+  <div class="pasture-img"></div>
+  <div class="pasture-text">
+    <div class="label">§ 05 — SOURCE</div>
+    <h2 class="h-section">From a specific ranch.<br>To a specific batch.</h2>
+    <p>Genostim is sourced from Texas grass-fed cattle, raised on open pasture without hormones or antibiotics. Single-origin, traceable to ranch of origin. We name the ranch on every batch.</p>
+    <p>Most supplement brands won't tell you where their ingredient came from. Most can't.</p>
+    <div class="pasture-meta">
+      <div><strong>Bandera County, TX</strong>Source region</div>
+      <div><strong>100% Open pasture</strong>Cattle raising</div>
+      <div><strong>No hormones</strong>No antibiotics</div>
+      <div><strong>Ranch-named</strong>On every batch</div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFY / COA -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="verify">
+      <div>
+        <div class="label">§ 06 — QUALITY YOU CAN VERIFY</div>
+        <h2 class="h-section" style="margin-top: 18px;">We publish the lab results.<br>Then we let you read them.</h2>
+        <p>Every batch is tested by an independent, ISO-accredited laboratory for identity, purity, and potency. The Certificate of Analysis is posted on the product page — searchable by batch code printed on the bottom of your bottle.</p>
+        <a href="#" class="btn btn-outline" style="border-color: rgba(255,255,255,.6); color: var(--white);">Search a batch code <span class="arrow">→</span></a>
+      </div>
+      <div class="coa-card">
+        <div class="head">
+          <h4>BATCH 2026.05 · COA EXCERPT</h4>
+          <span class="stamp">✓ PASSED</span>
+        </div>
+        <div class="coa-row"><span class="test">Identity (FTIR)</span><span class="spec">SPEC</span><span class="result">MATCH</span><span class="pass">PASS</span></div>
+        <div class="coa-row"><span class="test">Total amino acids</span><span class="spec">≥ 18</span><span class="result">18</span><span class="pass">PASS</span></div>
+        <div class="coa-row"><span class="test">Heavy metals (Pb)</span><span class="spec">&lt; 0.5 ppm</span><span class="result">0.08</span><span class="pass">PASS</span></div>
+        <div class="coa-row"><span class="test">Microbials (TPC)</span><span class="spec">&lt; 3,000 cfu</span><span class="result">&lt;100</span><span class="pass">PASS</span></div>
+        <div class="coa-row"><span class="test">Salmonella</span><span class="spec">Absent / 25g</span><span class="result">Absent</span><span class="pass">PASS</span></div>
+        <div class="coa-row"><span class="test">E. coli</span><span class="spec">Absent / 10g</span><span class="result">Absent</span><span class="pass">PASS</span></div>
+        <div class="coa-row"><span class="test">Glyphosate residue</span><span class="spec">Below LOQ</span><span class="result">Below LOQ</span><span class="pass">PASS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section">
+  <div class="container">
+    <div class="reviews-strip">
+      <div>
+        <div class="review-aggregate-big">4.8</div>
+        <div class="stars" style="margin-top: 8px;">★★★★★</div>
+        <div class="label label-mute" style="margin-top: 8px;">2,400+ verified reviews</div>
+      </div>
+      <div class="reviews-list">
+        <div class="review-row">
+          <span class="stars">★★★★★</span>
+          <span class="quote"><em>Replaced three other supplements.</em> Genostim covers what my multi, collagen, and protein top-up did — but it's one ingredient I can actually pronounce.</span>
+          <span class="by">MARCUS T. — SUBSCRIBER</span>
+        </div>
+        <div class="review-row">
+          <span class="stars">★★★★★</span>
+          <span class="quote"><em>Skeptic-friendly.</em> I asked about bioavailability and they sent the actual COA from my batch. That's the transparency I want from a brand I take every morning.</span>
+          <span class="by">PRIYA K. — SUBSCRIBER</span>
+        </div>
+        <div class="review-row">
+          <span class="stars">★★★★★</span>
+          <span class="quote"><em>Six months in.</em> Subscribed in November, skipped a month while traveling — took 30 seconds. Came back. It works as a foundation.</span>
+          <span class="by">JORDAN B. — SUBSCRIBER</span>
+        </div>
+        <div class="review-row">
+          <span class="stars">★★★★☆</span>
+          <span class="quote"><em>Wish the bottle were glass.</em> Otherwise no notes — clean label, easy to swallow, no aftertaste at all.</span>
+          <span class="by">ALEX R. — SUBSCRIBER</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="label" style="color: rgba(232,242,236,.7); margin-bottom: 24px;">§ 07 — START</div>
+        <h2>Start your daily<br>foundation. <em>Today.</em></h2>
+      </div>
+      <div class="final-side">
+        <div class="final-price"><strong>$55.99</strong><span>/ month · subscribe & save</span></div>
+        <p>120 capsules · 30 servings · free shipping · cancel, pause, or skip in two taps · 30-day guarantee</p>
+        <a href="#" class="btn btn-primary">Subscribe & save 20% <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo" style="color: var(--white);"><span class="logo-mark" style="background: var(--meadow);"></span>GENOSTIM</a>
+        <p>One ingredient. Nothing to hide. A whole-food daily foundation, concentrated from Texas grass-fed beef liver.</p>
+      </div>
+      <div class="foot-col"><h4>Shop</h4><a href="#">Subscribe</a><a href="#">One-time</a><a href="#">Gift card</a></div>
+      <div class="foot-col"><h4>Learn</h4><a href="#">Ingredients</a><a href="#">Science</a><a href="#">Quality</a><a href="#">FAQ</a></div>
+      <div class="foot-col"><h4>Account</h4><a href="#">Sign in</a><a href="#">Manage sub</a><a href="#">Refer a friend</a></div>
+      <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Press</a></div>
+    </div>
+    <p class="disclaimer">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Genostim is formulated for healthy adults. Consult your healthcare provider if pregnant, nursing, under 18, or managing a medical condition. Contains beef liver — not suitable for individuals with beef allergies.</p>
+    <div class="foot-bottom">
+      <span>© 2026 GENOSTIM</span>
+      <span>PRIVACY · TERMS · ACCESSIBILITY</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

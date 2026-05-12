@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genostim — Choose Your Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1A3A2A;
+    --forest-deep: #0F2419;
+    --meadow: #4A7C59;
+    --mint: #E8F2EC;
+    --offwhite: #F7F9F7;
+    --cream: #F2EEE5;
+    --charcoal: #333333;
+    --slate: #666666;
+    --gold: #B8860B;
+    --white: #FFFFFF;
+    --border: #DDE5DF;
+    --display: 'Sora', -apple-system, sans-serif;
+    --body: 'DM Sans', -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--offwhite); color: var(--charcoal); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+  .eyebrow { font-family: var(--display); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--meadow); }
+  .h-section { font-family: var(--display); font-weight: 600; line-height: 1.08; letter-spacing: -0.02em; color: var(--forest); }
+  .body-lg { font-size: 18px; line-height: 1.6; color: var(--slate); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; font-family: var(--display); font-weight: 600; font-size: 14px; cursor: pointer; border: 1.5px solid transparent; transition: all .15s ease; }
+  .btn-primary { background: var(--forest); color: var(--white); border-color: var(--forest); }
+  .btn-primary:hover { background: var(--forest-deep); }
+  .btn-outline { background: transparent; color: var(--forest); border-color: var(--forest); }
+  .btn-outline:hover { background: var(--forest); color: var(--white); }
+  .btn-white { background: var(--white); color: var(--forest); border-color: var(--border); }
+  .btn-white:hover { border-color: var(--meadow); }
+  .btn-sm { padding: 8px 16px; font-size: 12px; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(247,249,247,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+  .logo { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; font-size: 22px; color: var(--forest); }
+  .logo .dot { color: var(--meadow); }
+  .logo small { font-family: var(--body); font-size: 10px; letter-spacing: 0.12em; color: var(--slate); text-transform: uppercase; display: block; line-height: 1; margin-top: 2px; font-weight: 400; }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a { font-family: var(--display); font-size: 13px; font-weight: 500; color: var(--charcoal); padding: 6px 0; border-bottom: 2px solid transparent; transition: all .15s ease; }
+  .nav-links a:hover, .nav-links a.active { color: var(--meadow); border-color: var(--meadow); }
+
+  /* Review banner */
+  .review-banner { background: var(--forest); color: var(--mint); text-align: center; padding: 14px 16px; }
+  .review-banner p { font-family: var(--display); font-size: 13px; font-weight: 500; letter-spacing: 0.02em; line-height: 1.5; }
+  .review-banner strong { color: var(--white); }
+
+  /* Hero */
+  .hero { padding: 80px 0 64px; text-align: center; }
+  .hero h1 { font-size: clamp(40px, 5vw, 68px); font-family: var(--display); font-weight: 600; line-height: 1.02; letter-spacing: -0.035em; color: var(--forest); margin-top: 16px; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--meadow); }
+  .hero .deck { max-width: 640px; margin: 20px auto 32px; }
+  .hero-instructions { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 40px; }
+  .hero-step { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--charcoal); }
+  .hero-step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--mint); color: var(--forest); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 13px; flex-shrink: 0; }
+
+  /* Variants grid */
+  .variants { padding: 0 0 80px; }
+  .variants-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+  .variant-card { background: var(--white); border-radius: 16px; overflow: hidden; border: 2px solid var(--border); transition: all .3s ease; position: relative; }
+  .variant-card.selected { border-color: var(--meadow); box-shadow: 0 0 0 4px rgba(74,124,89,0.15), 0 8px 32px rgba(26,58,42,0.1); }
+  .variant-card.selected::after { content: 'Selected'; position: absolute; top: 16px; right: 16px; padding: 6px 14px; background: var(--meadow); color: var(--white); border-radius: 999px; font-family: var(--display); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; z-index: 10; }
+  .variant-preview { position: relative; width: 100%; height: 500px; overflow: hidden; background: var(--offwhite); }
+  .variant-preview iframe { width: 100%; height: 100%; border: 0; }
+  .variant-info { padding: 24px 24px 28px; }
+  .variant-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .variant-name { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--forest); letter-spacing: -0.01em; }
+  .variant-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--mint); color: var(--meadow); font-family: var(--display); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+  .variant-desc { font-size: 13px; color: var(--slate); line-height: 1.55; margin-bottom: 16px; }
+  .variant-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .variant-actions .btn { font-size: 13px; padding: 10px 20px; }
+  .fullscreen-toggle { cursor: pointer; }
+
+  /* Review selection area */
+  .selection-area { padding: 60px 0 80px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
+  .selection-display { margin-top: 24px; }
+  .selection-pending { color: var(--slate); font-size: 16px; }
+  .selection-pending em { font-style: italic; color: var(--meadow); }
+  .selection-confirmed { display: none; }
+  .selection-confirmed.visible { display: block; }
+  .selection-confirmed .sel-name { font-family: var(--display); font-weight: 600; font-size: 28px; color: var(--forest); letter-spacing: -0.02em; }
+  .selection-confirmed .sel-name em { color: var(--meadow); font-style: normal; }
+  .selection-confirmed .sel-blurb { color: var(--slate); margin-top: 8px; font-size: 15px; }
+  .reset-link { display: inline-block; margin-top: 12px; font-size: 13px; color: var(--meadow); cursor: pointer; border-bottom: 1px solid transparent; }
+  .reset-link:hover { border-color: var(--meadow); }
+
+  /* Comment section */
+  .comments { padding: 80px 0 100px; }
+  .comments-inner { max-width: 800px; margin: 0 auto; }
+  .comments h2 { font-size: clamp(28px, 3vw, 40px); margin-top: 12px; margin-bottom: 36px; }
+  .comment-form { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 40px; }
+  .form-row { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-bottom: 16px; }
+  .form-row label { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--forest); align-self: center; }
+  .form-row input,
+  .form-row textarea { font-family: var(--body); font-size: 14px; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--offwhite); color: var(--charcoal); outline: none; transition: border-color .15s ease; width: 100%; }
+  .form-row input:focus,
+  .form-row textarea:focus { border-color: var(--meadow); background: var(--white); }
+  .form-row textarea { resize: vertical; min-height: 80px; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 12px; align-items: center; margin-top: 8px; }
+  .form-actions .hint { font-size: 12px; color: var(--slate); }
+  .comments-list { display: flex; flex-direction: column; gap: 16px; }
+  .comment-empty { text-align: center; padding: 48px 24px; color: var(--slate); font-size: 15px; background: var(--white); border: 1px dashed var(--border); border-radius: 16px; }
+  .comment-empty strong { color: var(--forest); }
+  .comment-item { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .comment-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .comment-author { font-family: var(--display); font-weight: 600; font-size: 14px; color: var(--forest); }
+  .comment-date { font-size: 12px; color: var(--slate); }
+  .comment-text { font-size: 15px; color: var(--charcoal); line-height: 1.6; }
+  .comment-text .direction-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; background: var(--mint); color: var(--meadow); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; margin-right: 6px; }
+  .comment-actions { display: flex; gap: 12px; margin-top: 12px; }
+  .comment-actions button { background: none; border: none; font-size: 12px; color: var(--slate); cursor: pointer; padding: 0; font-family: var(--body); }
+  .comment-actions button:hover { color: var(--charcoal); text-decoration: underline; }
+
+  /* Footer */
+  footer { background: var(--forest-deep); color: rgba(255,255,255,.7); padding: 48px 0 24px; }
+  .foot-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 13px; }
+  .foot-inner .logo { color: var(--white); font-size: 20px; }
+
+  /* Modal for fullscreen preview */
+  .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.7); backdrop-filter: blur(8px); padding: 24px; }
+  .modal.open { display: flex; align-items: center; justify-content: center; }
+  .modal-content { background: var(--white); border-radius: 16px; width: 100%; max-width: 1400px; height: 90vh; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .modal-title { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--forest); }
+  .modal-close { background: none; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; color: var(--slate); transition: all .15s ease; }
+  .modal-close:hover { background: var(--mint); color: var(--forest); }
+  .modal-body { flex: 1; overflow: hidden; }
+  .modal-body iframe { width: 100%; height: 100%; border: 0; }
+  .modal-nav { display: flex; gap: 8px; margin-left: auto; margin-right: 16px; }
+  .modal-nav button { padding: 6px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--offwhite); font-family: var(--display); font-size: 12px; font-weight: 500; cursor: pointer; color: var(--charcoal); transition: all .15s ease; }
+  .modal-nav button:hover { background: var(--mint); border-color: var(--meadow); color: var(--forest); }
+  .modal-nav button:disabled { opacity: 0.4; cursor: default; background: var(--offwhite); border-color: var(--border); color: var(--slate); }
+
+  /* Mobile */
+  @media (max-width: 1024px) {
+    .variants-grid { grid-template-columns: 1fr; gap: 32px; }
+    .variant-preview { height: 420px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 48px 0 40px; }
+    .variant-preview { height: 340px; }
+    .nav-links a { font-size: 12px; }
+    .modal { padding: 12px; }
+    .modal-content { height: 85vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="review-banner">
+  <p>Design Review Board — <strong>Genostim</strong> · Three home page directions. You pick the direction.</p>
+</div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">GENOSTIM<span class="dot">.</span><small>Design Review</small></a>
+    <div class="nav-links">
+      <a href="#variants" class="active">Directions</a>
+      <a href="#selection">Your Pick</a>
+      <a href="#comments">Feedback</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="eyebrow">Client design review</div>
+    <h1>Choose your <em>direction</em>.</h1>
+    <p class="deck body-lg">We've developed three distinct design directions for the Genostim homepage. Each one takes a different positioning lane — scroll through them, select your favorite, and leave your feedback below.</p>
+    <div class="hero-instructions">
+      <div class="hero-step"><span class="hero-step-num">1</span> Scroll through each variant</div>
+      <div class="hero-step"><span class="hero-step-num">2</span> Click to expand for full page view</div>
+      <div class="hero-step"><span class="hero-step-num">3</span> Select your direction & leave feedback</div>
+    </div>
+  </div>
+</section>
+
+<!-- VARIANTS -->
+<section class="variants" id="variants">
+  <div class="container">
+    <div class="variants-grid">
+
+      <!-- V1 -->
+      <div class="variant-card" data-variant="v1" data-name="Confident accessible" data-tag="AG1 lane" data-blurb="The AG1 lane. Dark forest hero with product front-and-center, large numbers, icon trust bar, and a familiar benefits grid rhythm. Most conventional, easiest to convert, lowest creative risk.">
+        <div class="variant-preview">
+          <iframe src="home-v1-confident.html" title="V1 · Confident accessible" loading="lazy"></iframe>
+        </div>
+        <div class="variant-info">
+          <div class="variant-header">
+            <div>
+              <span class="variant-tag">Direction 01</span>
+              <div class="variant-name" style="margin-top:6px;">Confident accessible</div>
+            </div>
+          </div>
+          <p class="variant-desc">The AG1 lane. Dark forest hero with the product front-and-center, large numbers, an icon trust bar, and a familiar benefits grid rhythm. Lowest creative risk.</p>
+          <div class="variant-actions">
+            <button class="btn btn-outline select-btn" data-variant="v1">Select direction</button>
+            <button class="btn btn-white preview-btn" data-variant="v1">Full view</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- V2 -->
+      <div class="variant-card" data-variant="v2" data-name="Built for skeptics" data-tag="Ritual lane" data-blurb="The Ritual lane. Off-white paper, mono labels, oversized factsheet hero, Q-and-A block, periodic-table amino acid grid, and published COA card. Reads as scientific, transparent, and honest.">
+        <div class="variant-preview">
+          <iframe src="home-v2-transparent.html" title="V2 · Built for skeptics" loading="lazy"></iframe>
+        </div>
+        <div class="variant-info">
+          <div class="variant-header">
+            <div>
+              <span class="variant-tag">Direction 02</span>
+              <div class="variant-name" style="margin-top:6px;">Built for skeptics</div>
+            </div>
+          </div>
+          <p class="variant-desc">The Ritual lane. Off-white paper, mono labels, oversized factsheet hero, periodic-table amino grid, and a published COA card. Scientific, transparent, and honest.</p>
+          <div class="variant-actions">
+            <button class="btn btn-outline select-btn" data-variant="v2">Select direction</button>
+            <button class="btn btn-white preview-btn" data-variant="v2">Full view</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- V3 -->
+      <div class="variant-card" data-variant="v3" data-name="Editorial ancestral" data-tag="Story-led" data-blurb="Story-led. Full-bleed pastoral hero, founder manifesto, magazine ritual grid, full-width product block, pull-quote reviews. Leans into Texas grass-fed origin story — more premium, more cinematic.">
+        <div class="variant-preview">
+          <iframe src="home-v3-ancestral.html" title="V3 · Editorial ancestral" loading="lazy"></iframe>
+        </div>
+        <div class="variant-info">
+          <div class="variant-header">
+            <div>
+              <span class="variant-tag">Direction 03</span>
+              <div class="variant-name" style="margin-top:6px;">Editorial ancestral</div>
+            </div>
+          </div>
+          <p class="variant-desc">Story-led. Full-bleed pastoral hero, founder manifesto, magazine ritual grid, full-width product block, pull-quote reviews. Leans into the Texas grass-fed origin story — premium and cinematic.</p>
+          <div class="variant-actions">
+            <button class="btn btn-outline select-btn" data-variant="v3">Select direction</button>
+            <button class="btn btn-white preview-btn" data-variant="v3">Full view</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SELECTION -->
+<section class="selection-area" id="selection">
+  <div class="container">
+    <div class="eyebrow">Your decision</div>
+    <h2 class="h-section" style="margin-top: 12px; font-size: clamp(28px, 3vw, 40px);">Which direction wins?</h2>
+    <div class="selection-display">
+      <div class="selection-pending" id="selPending">
+        <p>Click <em>"Select direction"</em> on any card above to register your choice. Your selection is saved in this browser.</p>
+      </div>
+      <div class="selection-confirmed" id="selConfirmed">
+        <div class="sel-name">You selected: <em id="selName">—</em></div>
+        <div class="sel-blurb" id="selBlurb"></div>
+        <a class="reset-link" id="selReset">← Clear my selection</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENTS -->
+<section class="comments" id="comments">
+  <div class="container comments-inner">
+    <div class="eyebrow">Feedback</div>
+    <h2 class="h-section">Leave your thoughts.</h2>
+
+    <div class="comment-form">
+      <div class="form-row">
+        <label for="commentName">Your name</label>
+        <input type="text" id="commentName" placeholder="e.g. Alex" maxlength="80">
+      </div>
+      <div class="form-row">
+        <label for="commentText">Comment</label>
+        <textarea id="commentText" placeholder="What do you think of each direction? Any elements you'd want to mix between them?" maxlength="2000"></textarea>
+      </div>
+      <div class="form-actions">
+        <span class="hint">Comments are saved in this browser</span>
+        <button class="btn btn-primary btn-sm" id="commentSubmit">Post comment</button>
+      </div>
+    </div>
+
+    <div class="comments-list" id="commentsList">
+      <div class="comment-empty" id="commentsEmpty">
+        <p>No feedback yet. <strong>Be the first to leave a comment.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULLSCREEN MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Variant preview</span>
+      <div class="modal-nav">
+        <button id="modalPrev">← Previous</button>
+        <button id="modalNext">Next →</button>
+      </div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <iframe id="modalIframe" title="Full preview"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <a href="#" class="logo">GENOSTIM<span class="dot" style="color: var(--meadow);">.</span></a>
+      <span>Design Review Board · Genostim website · May 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'genostim_review';
+  const VARIANTS = [
+    { id: 'v1', file: 'home-v1-confident.html', name: 'Confident accessible', tag: 'Direction 01', blurb: 'The AG1 lane. Dark forest hero with the product front-and-center, large numbers, an icon trust bar, and a familiar benefits grid rhythm. Lowest creative risk.' },
+    { id: 'v2', file: 'home-v2-transparent.html', name: 'Built for skeptics', tag: 'Direction 02', blurb: 'The Ritual lane. Off-white paper, mono labels, oversized factsheet hero, Q-and-A block, periodic-table amino acid grid, and a published COA card. Scientific, transparent, and honest.' },
+    { id: 'v3', file: 'home-v3-ancestral.html', name: 'Editorial ancestral', tag: 'Direction 03', blurb: 'Story-led. Full-bleed pastoral hero, founder manifesto, magazine ritual grid, full-width product block, pull-quote reviews. Premium and cinematic.' }
+  ];
+
+  // ====== SELECTION ======
+  function loadData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : { selected: null, comments: [] };
+    } catch { return { selected: null, comments: [] }; }
+  }
+
+  function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function updateSelectionUI() {
+    const data = loadData();
+    const selPending = document.getElementById('selPending');
+    const selConfirmed = document.getElementById('selConfirmed');
+    const selName = document.getElementById('selName');
+    const selBlurb = document.getElementById('selBlurb');
+    const cards = document.querySelectorAll('.variant-card');
+
+    cards.forEach(c => c.classList.remove('selected'));
+
+    if (data.selected) {
+      selPending.style.display = 'none';
+      selConfirmed.classList.add('visible');
+      const v = VARIANTS.find(v => v.id === data.selected);
+      if (v) {
+        selName.textContent = v.name;
+        selBlurb.textContent = v.blurb;
+        cards.forEach(c => { if (c.dataset.variant === v.id) c.classList.add('selected'); });
+      }
+    } else {
+      selPending.style.display = 'block';
+      selConfirmed.classList.remove('visible');
+    }
+  }
+
+  function setSelection(variantId) {
+    const data = loadData();
+    data.selected = variantId;
+    saveData(data);
+    updateSelectionUI();
+  }
+
+  function clearSelection() {
+    const data = loadData();
+    data.selected = null;
+    saveData(data);
+    updateSelectionUI();
+  }
+
+  // ====== COMMENTS ======
+  function renderComments() {
+    const data = loadData();
+    const list = document.getElementById('commentsList');
+    const empty = document.getElementById('commentsEmpty');
+
+    const comments = data.comments || [];
+
+    if (comments.length === 0) {
+      list.innerHTML = '<div class="comment-empty" id="commentsEmpty"><p>No feedback yet. <strong>Be the first to leave a comment.</strong></p></div>';
+      return;
+    }
+
+    list.innerHTML = comments.map((c, i) => {
+      const dt = new Date(c.timestamp);
+      const dateStr = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const tag = c.direction ? `<span class="direction-tag">${c.direction}</span>` : '';
+      return `<div class="comment-item">
+        <div class="comment-head">
+          <span class="comment-author">${escHtml(c.name || 'Anonymous')}</span>
+          <span class="comment-date">${dateStr}</span>
+        </div>
+        <div class="comment-text">${tag}${escHtml(c.text)}</div>
+        <div class="comment-actions">
+          <button onclick="deleteComment(${i})">Delete</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  window.deleteComment = function(index) {
+    const data = loadData();
+    data.comments.splice(index, 1);
+    saveData(data);
+    renderComments();
+  };
+
+  function addComment(name, text) {
+    const data = loadData();
+    const direction = data.selected ? VARIANTS.find(v => v.id === data.selected) : null;
+    data.comments.unshift({
+      name: name.trim() || 'Anonymous',
+      text: text.trim(),
+      timestamp: Date.now(),
+      direction: direction ? direction.name : null
+    });
+    saveData(data);
+    renderComments();
+  }
+
+  function escHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // ====== MODAL ======
+  let currentIdx = 0;
+  const modal = document.getElementById('modal');
+  const modalIframe = document.getElementById('modalIframe');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalClose = document.getElementById('modalClose');
+  const modalPrev = document.getElementById('modalPrev');
+  const modalNext = document.getElementById('modalNext');
+
+  function openModal(idx) {
+    currentIdx = idx;
+    const v = VARIANTS[idx];
+    modalIframe.src = v.file;
+    modalTitle.textContent = v.tag + ' — ' + v.name;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    updateModalNav();
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    modalIframe.src = '';
+  }
+
+  function updateModalNav() {
+    modalPrev.disabled = currentIdx <= 0;
+    modalNext.disabled = currentIdx >= VARIANTS.length - 1;
+  }
+
+  function modalPrevFn() { if (currentIdx > 0) openModal(currentIdx - 1); }
+  function modalNextFn() { if (currentIdx < VARIANTS.length - 1) openModal(currentIdx + 1); }
+
+  // ====== EVENT BINDING ======
+  document.addEventListener('DOMContentLoaded', function() {
+    updateSelectionUI();
+    renderComments();
+
+    // Select buttons
+    document.querySelectorAll('.select-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        setSelection(this.dataset.variant);
+      });
+    });
+
+    // Preview buttons
+    document.querySelectorAll('.preview-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const v = this.dataset.variant;
+        const idx = VARIANTS.findIndex(x => x.id === v);
+        if (idx >= 0) openModal(idx);
+      });
+    });
+
+    // Reset selection
+    document.getElementById('selReset').addEventListener('click', clearSelection);
+
+    // Comment submit
+    document.getElementById('commentSubmit').addEventListener('click', function() {
+      const name = document.getElementById('commentName');
+      const text = document.getElementById('commentText');
+      if (!text.value.trim()) return;
+      addComment(name.value, text.value);
+      name.value = '';
+      text.value = '';
+    });
+
+    // Enter key in textarea
+    document.getElementById('commentText').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        document.getElementById('commentSubmit').click();
+      }
+    });
+
+    // Modal controls
+    modalClose.addEventListener('click', closeModal);
+    modalPrev.addEventListener('click', modalPrevFn);
+    modalNext.addEventListener('click', modalNextFn);
+    modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function(e) {
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft' && !modalPrev.disabled) modalPrevFn();
+      if (e.key === 'ArrowRight' && !modalNext.disabled) modalNextFn();
+    });
+
+    // Smooth scroll for nav
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
