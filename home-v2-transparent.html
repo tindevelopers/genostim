@@ -196,6 +196,71 @@
   .foot-col a:hover { color: var(--white); }
   .foot-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.5); letter-spacing: 0.06em; }
   .disclaimer { font-size: 12px; color: rgba(255,255,255,.5); line-height: 1.55; max-width: 820px; margin-top: 24px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .hero-top { grid-template-columns: 1fr; gap: 32px; }
+    .amino-area { grid-template-columns: 1fr; gap: 48px; }
+    .verify { grid-template-columns: 1fr; gap: 40px; }
+    .foot-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+    .factsheet-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .fcol { padding: 0; border-right: none; }
+    .fcol-1 { grid-column: 1 / -1; }
+    .final-grid { grid-template-columns: 1fr; gap: 32px; }
+    .pasture { grid-template-columns: 1fr; }
+    .pasture-img { min-height: 320px; }
+    .reviews-strip { grid-template-columns: 1fr; gap: 32px; }
+    .section-head { grid-template-columns: 1fr; gap: 16px; }
+  }
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .section { padding: 64px 0; }
+    .hero { padding: 48px 0 0; }
+    .hero h1 { font-size: clamp(40px, 10vw, 56px); }
+    .hero h1 .sub { font-size: 0.5em; margin-top: 16px; }
+    .factsheet-grid { grid-template-columns: 1fr; gap: 20px; }
+    .factsheet-head { flex-direction: column; gap: 8px; }
+    .fcol .num { font-size: 48px; }
+    .fcol-1 .num { font-size: 20px; }
+    .section-head { grid-template-columns: 1fr; gap: 12px; }
+    .section-head h2 { font-size: clamp(28px, 8vw, 36px); }
+    .skeptic-grid { grid-template-columns: 1fr; }
+    .skeptic { padding: 28px 0 !important; border-right: none; }
+    .periodic { grid-template-columns: repeat(3, 1fr); }
+    .benefits { grid-template-columns: 1fr; }
+    .b-row { grid-template-columns: 1fr; gap: 12px; padding: 28px 24px; border-right: none; }
+    .b-row:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .b-row:last-child { border-bottom: none; }
+    .pasture-text { padding: 48px 32px; }
+    .pasture-meta { grid-template-columns: 1fr; gap: 16px; }
+    .coa-card { padding: 24px; }
+    .review-row { grid-template-columns: 1fr; gap: 8px; }
+    .final-grid { gap: 20px; }
+    .final { padding: 64px 0; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .foot-brand { grid-column: 1 / -1; }
+    .foot-bottom { flex-direction: column; gap: 8px; }
+    .btn { width: 100%; justify-content: center; }
+    .cta-stack .btn { width: 100%; }
+    .verify h2 { font-size: clamp(28px, 8vw, 40px); }
+  }
+  @media (max-width: 480px) {
+    .topline { font-size: 10px; padding: 6px 12px; line-height: 1.4; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 10px; letter-spacing: 0.06em; }
+    .nav-cta a[style] { font-size: 10px !important; }
+    .nav-cta .btn { padding: 10px 14px; font-size: 11px; }
+    .periodic { grid-template-columns: repeat(2, 1fr); }
+    .pcell { aspect-ratio: auto; padding: 10px; }
+    .pcell .psym { font-size: 18px; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .review-row .quote { font-size: 14px; }
+    .final-price strong { font-size: 40px; }
+    .annc { font-size: 11px; padding: 6px 12px; }
+    .logo { font-size: 18px; }
+    .hero-side .cta-stack { width: 100%; }
+    .pasture-text { padding: 36px 24px; }
+  }
 </style>
 </head>
 <body>
