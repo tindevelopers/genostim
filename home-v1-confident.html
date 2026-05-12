@@ -52,6 +52,25 @@
   .nav-cta { display: flex; gap: 12px; align-items: center; }
   .nav-cta .small { font-size: 13px; padding: 10px 18px; }
 
+  /* Hamburger (hidden desktop) */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+  .hamburger span { display: block; width: 26px; height: 2.5px; background: var(--forest); border-radius: 2px; transition: all .2s ease; }
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Mobile overlay menu */
+  .mobile-menu { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; background: var(--forest); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 28px; opacity: 0; visibility: hidden; transition: all .3s ease; }
+  .mobile-menu.open { opacity: 1; visibility: visible; }
+  .mobile-menu a { font-family: var(--display); font-size: 24px; font-weight: 500; color: var(--white); letter-spacing: -0.01em; transition: opacity .15s ease; }
+  .mobile-menu a:hover { opacity: .7; }
+  .mobile-menu .mobile-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; padding: 8px; }
+  .mobile-menu .mobile-close span { display: block; width: 28px; height: 2.5px; background: var(--white); border-radius: 2px; }
+  .mobile-menu .mobile-close span:nth-child(1) { transform: rotate(45deg); }
+  .mobile-menu .mobile-close span:nth-child(2) { transform: rotate(-45deg) translate(0, -1px); }
+  .mobile-menu .mobile-cta { margin-top: 16px; }
+  .mobile-menu .mobile-cta .btn { padding: 16px 48px; font-size: 18px; background: var(--white); color: var(--forest); border-color: var(--white); }
+
   /* Announcement */
   .annc { background: var(--forest); color: var(--mint); text-align: center; padding: 9px 16px; font-size: 13px; font-family: var(--display); font-weight: 500; letter-spacing: 0.01em; }
   .annc strong { color: var(--white); }
@@ -195,6 +214,8 @@
     .final-cta-inner { padding: 64px 40px; border-radius: 24px; }
   }
   @media (max-width: 768px) {
+    .nav-links, .nav-cta a[style], .nav-cta .btn { display: none; }
+    .hamburger { display: flex; }
     .container { padding: 0 20px; }
     .section { padding: 80px 0; }
     .section-tight { padding: 64px 0; }
@@ -254,8 +275,27 @@
       <a href="#" style="font-family: var(--display); font-size: 14px; font-weight: 500; color: var(--charcoal);">Sign in</a>
       <a href="#shop" class="btn btn-primary small">Subscribe →</a>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile overlay menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="Close menu">
+    <span></span><span></span>
+  </button>
+  <a href="#shop">Shop</a>
+  <a href="#ingredients">Ingredients</a>
+  <a href="#quality">Quality</a>
+  <a href="#science">Science</a>
+  <a href="#faq">FAQ</a>
+  <a href="#" style="font-family: var(--display); font-size: 18px; font-weight: 400; color: rgba(255,255,255,.7); letter-spacing: -0.01em;">Sign in</a>
+  <div class="mobile-cta">
+    <a href="#shop" class="btn">Subscribe →</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -599,4 +639,25 @@
 </footer>
 
 </body>
+<script>
+(function() {
+  var hamburger = document.getElementById('hamburger');
+  var menu = document.getElementById('mobileMenu');
+  var close = document.getElementById('mobileClose');
+  var links = menu.querySelectorAll('a');
+  function toggle() {
+    var open = menu.classList.toggle('open');
+    hamburger.classList.toggle('open');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function closeMenu() {
+    menu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', toggle);
+  close.addEventListener('click', closeMenu);
+  links.forEach(function(l) { l.addEventListener('click', closeMenu); });
+})();
+</script>
 </html>
